@@ -146,8 +146,6 @@
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-let w:buftabs_enabled = 0
-let w:original_statusline = matchstr(&statusline, "%=.*")
 
 "
 " Don't bother when in diff mode
@@ -159,7 +157,7 @@ endif
 
 
 "
-" Called on VimEnter event
+" Enables the buftab plugin
 "
 
 function! Buftabs_enable()
@@ -168,13 +166,16 @@ endfunction
 
 
 "
-" Called on TabEnter event
+" Gets the original statusline
 "
 
-function! Buftabs_newtab()
-	let w:buftabs_enabled = 1
+function! Buftabs_statusline()
 	let w:original_statusline = matchstr(&statusline, "%=.*")
 endfunction
+
+
+let w:buftabs_enabled = 0
+call Buftabs_statusline()
 
 
 "
@@ -349,8 +350,8 @@ endfunction
 " buffers
 "
 
-autocmd VimEnter * call Buftabs_enable()
-autocmd TabEnter * call Buftabs_newtab()
+autocmd VimEnter,TabEnter,BufEnter * call Buftabs_enable()
+autocmd TabEnter,BufEnter * call Buftabs_statusline()
 autocmd TabEnter,VimEnter,BufNew,BufEnter,BufWritePost * call Buftabs_show(-1)
 autocmd BufDelete * call Buftabs_show(expand('<abuf>'))
 if version >= 700
