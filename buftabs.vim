@@ -173,7 +173,7 @@ endfunction
 
 function! Buftabs_newtab()
 	let w:buftabs_enabled = 1
-  let w:original_statusline = matchstr(&statusline, "%=.*")
+	let w:original_statusline = matchstr(&statusline, "%=.*")
 endfunction
 
 
